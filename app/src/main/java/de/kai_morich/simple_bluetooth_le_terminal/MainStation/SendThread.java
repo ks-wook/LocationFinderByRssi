@@ -12,9 +12,13 @@ public class SendThread extends Thread {
 
     @Override
     public void run(){
-        try {
-            msManager.send();
-        } catch (Exception e) {
+        try
+        {
+            byte[] data = new byte[] {10, 20, 30};
+            msManager.Send((byte) 5, (byte) 0, data);
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 

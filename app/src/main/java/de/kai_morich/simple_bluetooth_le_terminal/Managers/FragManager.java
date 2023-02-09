@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import de.kai_morich.simple_bluetooth_le_terminal.Defines.Define;
 import de.kai_morich.simple_bluetooth_le_terminal.MainActivity;
 
+// 프래그먼트들을 관리하기 위한 클래스
+// 프래그먼트들은 리스트형태로 관리되며 Define 클래스에 정의된 상태를 이용해 현재 상태를 업데이트 해야함
 public class FragManager {
 
     private static final FragManager _instance = new FragManager();
@@ -22,6 +24,7 @@ public class FragManager {
         return _fragments.contains(frag);
     }
 
+    // 플래그 선언에 따라 프래그먼트를 추가하고 숨길지를 결정
     public void addAndHideFragment(Activity activity, int containerId, Fragment frag, String tag, Define.ScreenState s, boolean flag) {
 
         if(!_fragments.contains(frag))

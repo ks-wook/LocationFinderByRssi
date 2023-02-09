@@ -1,6 +1,5 @@
 package de.kai_morich.simple_bluetooth_le_terminal.MainStation;
 
-import android.Manifest;
 import android.util.Log;
 
 import java.net.DatagramPacket;
@@ -11,14 +10,15 @@ import de.kai_morich.simple_bluetooth_le_terminal.Managers.MainStationManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Util.TextUtility;
 
 
+// 메인 스테이션의 주소를 알아내기 위한 클래스, broadcasting 방식으로 메인스테이션 탐색
 public class BroadCastThread extends Thread{
 
     String serverIp;
     private static final int PORT = 8200;
 
-    private MainStationManager msManager;
-    public BroadCastThread(MainStationManager msManager) {
-        this.msManager = msManager;
+    MainStationManager msManager;
+    public BroadCastThread() {
+        msManager = MainStationManager.getInstance();
     }
 
     @Override

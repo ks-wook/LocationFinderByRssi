@@ -12,14 +12,15 @@ import android.os.IBinder;
 import android.util.Log;
 
 import de.kai_morich.simple_bluetooth_le_terminal.MainActivity;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.MainStationManager;
 import de.kai_morich.simple_bluetooth_le_terminal.R;
 import de.kai_morich.simple_bluetooth_le_terminal.Util.TextUtility;
 
 public class MainStationService extends Service {
 
-    private static final String channel = "MainStationService";
-
     Thread _serviceThread = new BackGroundTask();
+
+    MainStationManager _msManager = MainStationManager.getInstance();
 
     // 쓰레드 실행 여부 확인
     SharedPreferences pref;
@@ -37,8 +38,6 @@ public class MainStationService extends Service {
 
         pref = getSharedPreferences("isRunning", MODE_PRIVATE);
         editor = pref.edit();
-
-        // createNotificationChannel();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             PendingIntent mPendingIntent = PendingIntent.getActivity(
@@ -71,7 +70,6 @@ public class MainStationService extends Service {
         else // 이미 실행중이라면 토스트 메시지 출력
             TextUtility.showToastMessage(getApplicationContext(), "이미 서비스가 실행중입니다. 이미 실행중인 서비스를 종료해주세요.");
 
-
         return START_REDELIVER_INTENT ;
     }
 
@@ -80,20 +78,24 @@ public class MainStationService extends Service {
         return null;
     }
 
-    class BackGroundTask extends Thread
-    {
+    class BackGroundTask extends Thread {
         @Override
         public void run() {
 
             editor.putBoolean("isRunning", true);
             editor.commit();
 
-            while(flag)
-            {
-                try
+            while (flag) {
+                try  // push 서버 형태
                 {
-                    Thread.sleep(2000);
+                    // 패킷 수신 대기(blocking 상태)
+                    if(!_msManager.Receive())
+                        break;
+
                     Log.v("test", "task 실행중...");
+
+                    // 추후에 더미 값이 아닌 측정값을 전달, 딜레이 시간 또한 제대로 된 알고리즘으로 수정 필요
+                    // TODO
                 }
                 catch (Exception e)
                 {
@@ -108,20 +110,6 @@ public class MainStationService extends Service {
             Log.v("test", "task 종료...");
         }
     }
-
-    public void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager manager = getBaseContext().getSystemService(NotificationManager.class);
-
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    "1000",
-                    "service",
-                    NotificationManager.IMPORTANCE_NONE
-            );
-            manager.createNotificationChannel(serviceChannel);
-        }
-    }
-
 
     @Override
     public void onDestroy() {

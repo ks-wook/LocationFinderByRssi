@@ -75,10 +75,8 @@ public class HomeFragment extends Fragment {
 
         _mainActivity = getActivity();
 
-        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_search), view -> {
-            BroadCastThread broadCastThread = new BroadCastThread(MainStationManager.getInstance());
-            broadCastThread.start();
-        });
+        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_search),
+                view -> ThreadManager.startThread(new BroadCastThread()));
 
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_send),
                 view -> ThreadManager.startThread(new SendThread()));
@@ -86,7 +84,6 @@ public class HomeFragment extends Fragment {
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_disconnect),
                 view -> ThreadManager.startThread(new DisConnectThread()));
     }
-
 
     public void serviceInit() {
 
@@ -110,6 +107,7 @@ public class HomeFragment extends Fragment {
 
             if(!pref.getBoolean("isRunning", false))
             {
+                ThreadManager.startThread(new DisConnectThread()); // 연결 종료 패킷 전송
                 getActivity().getApplicationContext().stopService(_serviceIntent);
                 manager.cancel(1000);
             }

@@ -14,7 +14,7 @@ public class DisConnectThread extends Thread {
     @Override
     public void run(){
         try {
-            msManager.disConnect();
+            msManager.Send((byte) 2, (byte) 2, null);
         } catch (Exception e) {
             e.printStackTrace();
         }

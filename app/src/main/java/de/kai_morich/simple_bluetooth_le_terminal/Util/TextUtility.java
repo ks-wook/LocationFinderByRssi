@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
+
+// 텍스트, 메시지 관련한 일부 기능들을 사용하기위한 클래스
 public class TextUtility {
 
     public static boolean isNumeric(String s) {

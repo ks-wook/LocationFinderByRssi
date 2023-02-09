@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+// 블루투스 관련 프래그먼트
 public class DevicesFragment extends ListFragment {
 
     public enum ScanState { NONE, LE_SCAN, DISCOVERY, DISCOVERY_FINISHED }

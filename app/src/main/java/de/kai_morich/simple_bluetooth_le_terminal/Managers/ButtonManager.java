@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+// 버튼에 리스너를 달게 하기 위해 만든 클래스
+// 싱글턴 패턴에 유의, 필요시 메소드 추가
 public class ButtonManager {
 
     private static final ButtonManager _instance = new ButtonManager();

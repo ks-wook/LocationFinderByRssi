@@ -1,13 +1,14 @@
 package de.kai_morich.simple_bluetooth_le_terminal.Managers;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
+
+// 텍스트뷰나 에딧뷰 등의 기본 뷰에 이벤트 리스터를 쉽게 사용하기 위한 Manager
+// 필요시 메소드를 더 선언하여서 사용, 싱글턴 패턴 유의
 public class ViewSetManager {
 
     private static final ViewSetManager _instance = new ViewSetManager();

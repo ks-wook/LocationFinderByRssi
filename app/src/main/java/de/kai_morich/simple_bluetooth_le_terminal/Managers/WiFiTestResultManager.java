@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import de.kai_morich.simple_bluetooth_le_terminal.Wifi.Room;
 
+// 기능 테스트용 클래스 최종 어플리케이션에선 삭제될 수 있음
 public class WiFiTestResultManager {
 
     static public void sortRoomList(ArrayList<Room> roomList, int rssi1, int rssi2, int rssi3) {
