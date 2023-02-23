@@ -33,7 +33,7 @@ import de.kai_morich.simple_bluetooth_le_terminal.Managers.WiFiTestResultManager
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ButtonManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ViewSetManager;
 import de.kai_morich.simple_bluetooth_le_terminal.R;
-import de.kai_morich.simple_bluetooth_le_terminal.Util.TextUtility;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
 
 public class WiFiTestFragment extends Fragment {
 
@@ -173,7 +173,7 @@ public class WiFiTestFragment extends Fragment {
 
         ButtonManager.getInstance().setClickListener(activity.findViewById(R.id.MinEnter1), view -> {
             String Value = (ViewSetManager.getInstance().getText((EditText) activity.findViewById(R.id.MinRssiEdit1)));
-            if(!TextUtility.isNumeric(Value))
+            if(!UtilityManager.isNumeric(Value))
                 return;
 
             int tmp = Integer.parseInt(Value);
@@ -186,7 +186,7 @@ public class WiFiTestFragment extends Fragment {
 
         ButtonManager.getInstance().setClickListener(activity.findViewById(R.id.MaxEnter1), view -> {
             String Value = (ViewSetManager.getInstance().getText((EditText) activity.findViewById(R.id.MaxRssiEdit1)));
-            if(!TextUtility.isNumeric(Value))
+            if(!UtilityManager.isNumeric(Value))
                 return;
 
             int tmp = Integer.parseInt(Value);
@@ -228,7 +228,7 @@ public class WiFiTestFragment extends Fragment {
 
         ButtonManager.getInstance().setClickListener(activity.findViewById(R.id.MinEnter2), view -> {
             String Value = (ViewSetManager.getInstance().getText((EditText) activity.findViewById(R.id.MinRssiEdit2)));
-            if(!TextUtility.isNumeric(Value))
+            if(!UtilityManager.isNumeric(Value))
                 return;
 
             int tmp = Integer.parseInt(Value);
@@ -241,7 +241,7 @@ public class WiFiTestFragment extends Fragment {
 
         ButtonManager.getInstance().setClickListener(activity.findViewById(R.id.MaxEnter2), view -> {
             String Value = (ViewSetManager.getInstance().getText((EditText) activity.findViewById(R.id.MaxRssiEdit2)));
-            if(!TextUtility.isNumeric(Value))
+            if(!UtilityManager.isNumeric(Value))
                 return;
 
             int tmp = Integer.parseInt(Value);
@@ -284,7 +284,7 @@ public class WiFiTestFragment extends Fragment {
 
         ButtonManager.getInstance().setClickListener(activity.findViewById(R.id.MinEnter3), view -> {
             String Value = (ViewSetManager.getInstance().getText((EditText) activity.findViewById(R.id.MinRssiEdit3)));
-            if(!TextUtility.isNumeric(Value))
+            if(!UtilityManager.isNumeric(Value))
                 return;
 
             int tmp = Integer.parseInt(Value);
@@ -297,7 +297,7 @@ public class WiFiTestFragment extends Fragment {
 
         ButtonManager.getInstance().setClickListener(activity.findViewById(R.id.MaxEnter3), view -> {
             String Value = (ViewSetManager.getInstance().getText((EditText) activity.findViewById(R.id.MaxRssiEdit3)));
-            if(!TextUtility.isNumeric(Value))
+            if(!UtilityManager.isNumeric(Value))
                 return;
 
             int tmp = Integer.parseInt(Value);
@@ -611,7 +611,7 @@ public class WiFiTestFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
 
             if(MyRegisteredAPList.isEmpty()) {
-                TextUtility.showToastMessage(activity, "방을 추가해주세요");
+                UtilityManager.getInstance().showToastMessage("방을 추가해주세요");
                 return;
             }
 
@@ -631,7 +631,7 @@ public class WiFiTestFragment extends Fragment {
                     isResultScan = false;
                     getWIFIScanResultAndSetRank();
                     Log.e("wifi","scanSuccess !!!!!!!!!!!!!!!");
-                    TextUtility.showToastMessage(Objects.requireNonNull(activity), "스캔이 완료되었습니다.");
+                    UtilityManager.getInstance().showToastMessage("스캔이 완료되었습니다.");
                     ViewSetManager.getInstance().setVisibility(activity.findViewById(R.id.ScanningState), View.INVISIBLE);
                     ViewSetManager.getInstance().setVisibility(TestResultRoomList, View.VISIBLE);
                 }
@@ -639,12 +639,12 @@ public class WiFiTestFragment extends Fragment {
                     isValueScan = false;
                     getWIFIScanResultAndSetValue();
                     Log.e("wifi","scanSuccess !!!!!!!!!!!!!!!");
-                    TextUtility.showToastMessage(activity, "값을 현재 위치 기준으로 설정하였습니다.");
+                    UtilityManager.getInstance().showToastMessage("값을 현재 위치 기준으로 설정하였습니다.");
                 }
             }
             else {
                 // scan failure handling
-                TextUtility.showToastMessage(activity, "scan failed...");
+                UtilityManager.getInstance().showToastMessage("scan failed...");
                 Log.e("wifi","scanFailure ..............");
             }
         }

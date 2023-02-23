@@ -1,10 +1,8 @@
 package de.kai_morich.simple_bluetooth_le_terminal.Home;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -19,28 +18,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.nio.charset.StandardCharsets;
-import java.util.Locale;
-
-import de.kai_morich.simple_bluetooth_le_terminal.MainActivity;
+import de.kai_morich.simple_bluetooth_le_terminal.Defines.Define;
 import de.kai_morich.simple_bluetooth_le_terminal.MainStation.BroadCastThread;
-import de.kai_morich.simple_bluetooth_le_terminal.MainStation.DisConnectThread;
-import de.kai_morich.simple_bluetooth_le_terminal.MainStation.SendThread;
+import de.kai_morich.simple_bluetooth_le_terminal.MainStation.Connector;
+import de.kai_morich.simple_bluetooth_le_terminal.MainStation.ServerSession;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ButtonManager;
-import de.kai_morich.simple_bluetooth_le_terminal.Managers.MainStationManager;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.SessionManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ThreadManager;
 import de.kai_morich.simple_bluetooth_le_terminal.R;
 import de.kai_morich.simple_bluetooth_le_terminal.Service.MainStationService;
-import de.kai_morich.simple_bluetooth_le_terminal.Util.TextUtility;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
 
-
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeFragment extends Fragment {
 
     private static final int BROADCAST_PORT = 5000;
@@ -48,10 +37,14 @@ public class HomeFragment extends Fragment {
     Activity _mainActivity;
     Intent _serviceIntent;
 
+    // test packet
+    byte[] sync = {(byte) Define.PacketSize.SyncSize.getValue(),
+            (byte)Define.PacketId.Sync.getValue(),
+            (byte) 10, (byte) 20, (byte) 30}; // dummy message
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+
+    byte[] disc = {(byte) Define.PacketSize.DiscSize.getValue(),
+            (byte) Define.PacketId.Disc.getValue() };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,14 +72,24 @@ public class HomeFragment extends Fragment {
                 view -> ThreadManager.startThread(new BroadCastThread()));
 
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_send),
-                view -> ThreadManager.startThread(new SendThread()));
+                view -> {
+            if(SessionManager.CurrentSession() != null)
+                SessionManager.CurrentSession().Send(sync);
+            else
+                UtilityManager.getInstance().showToastMessage("메인스테이션 세션이 등록되지 않았습니다.");
+        });
 
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_disconnect),
-                view -> ThreadManager.startThread(new DisConnectThread()));
+                view -> {
+            if(SessionManager.CurrentSession() != null)
+                SessionManager.CurrentSession().Send(disc);
+            else
+                UtilityManager.getInstance().showToastMessage("메인스테이션 세션이 등록되지 않았습니다.");
+        });
     }
 
     public void serviceInit() {
-
+        
         createNotificationChannel();
         _serviceIntent = new Intent(_mainActivity.getApplicationContext(), MainStationService.class);
 
@@ -107,12 +110,16 @@ public class HomeFragment extends Fragment {
 
             if(!pref.getBoolean("isRunning", false))
             {
-                ThreadManager.startThread(new DisConnectThread()); // 연결 종료 패킷 전송
+                if(SessionManager.CurrentSession() != null) // 연결 종료 패킷 전송
+                    SessionManager.CurrentSession().Send(disc);
+                else
+                    UtilityManager.getInstance().showToastMessage("메인스테이션 세션이 등록되지 않았습니다.");
+
                 getActivity().getApplicationContext().stopService(_serviceIntent);
                 manager.cancel(1000);
             }
             else
-                TextUtility.showToastMessage(_mainActivity, "실행중인 서비스가 없습니다.");
+                UtilityManager.getInstance().showToastMessage("실행중인 서비스가 없습니다.");
 
         });
     }

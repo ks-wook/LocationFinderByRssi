@@ -20,15 +20,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import de.kai_morich.simple_bluetooth_le_terminal.Defines.Define;
-import de.kai_morich.simple_bluetooth_le_terminal.MainStation.SendThread;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ButtonManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.FragManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ViewSetManager;
 import de.kai_morich.simple_bluetooth_le_terminal.R;
-import de.kai_morich.simple_bluetooth_le_terminal.Util.TextUtility;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
 
 public class WiFiFragment extends ListFragment {
 
@@ -47,7 +45,6 @@ public class WiFiFragment extends ListFragment {
     ArrayAdapter<ScanResult> _wifiListAdapter;
     ArrayList<WiFiAccessPoint> _registeredAPList;
 
-    public SendThread mainStationThread;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,15 +106,10 @@ public class WiFiFragment extends ListFragment {
             wifiManager.startScan();
         });
 
-        ButtonManager.getInstance().setClickListener(_header.findViewById(R.id.mainStation_sendingToMS), view -> {
-            mainStationThread = new SendThread();
-            mainStationThread.start();
-        });
-
         ButtonManager.getInstance().setClickListener(_header.findViewById(R.id.wifi_RegisteredAPList), view -> {
 
             if(_registeredAPList.size() != 3) {
-                TextUtility.showToastMessage(Objects.requireNonNull(getActivity()), "ap는 3개가 선택되어야 합니다.");
+                UtilityManager.getInstance().showToastMessage("ap는 3개가 선택되어야 합니다.");
                 return;
             }
 
@@ -180,12 +172,12 @@ public class WiFiFragment extends ListFragment {
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
 
         if(_registeredAPList.size() >= 3) {
-            TextUtility.showToastMessage(Objects.requireNonNull(getActivity()), "리스트에는 3개까지만 등록 가능합니다.");
+            UtilityManager.getInstance().showToastMessage("리스트에는 3개까지만 등록 가능합니다.");
             return;
         }
 
         ScanResult result = _wifiScanResults.get(position - 1);
-        TextUtility.showToastMessage(Objects.requireNonNull(getActivity()), "SSID: " + result.SSID + "를 리스트에 추가 하였습니다.");
+        UtilityManager.getInstance().showToastMessage("SSID: " + result.SSID + "를 리스트에 추가 하였습니다.");
 
         _registeredAPList.add(new WiFiAccessPoint(result.SSID, result.BSSID));
     }

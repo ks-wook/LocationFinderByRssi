@@ -16,7 +16,7 @@ import de.kai_morich.simple_bluetooth_le_terminal.Home.HomeFragment;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ButtonManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.FragManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Setting.SettingFragment;
-import de.kai_morich.simple_bluetooth_le_terminal.Util.TextUtility;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Wifi.WiFiFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
         FragManager.getInstance().addAndHideFragment(this, R.id.MainContainer, setting, "Setting", Define.ScreenState.Setting, true);
         // bluetooth
         // TODO
+
+        UtilityManager.getInstance().Init(this);
     }
 
     public void btnInit() {
         ButtonManager.getInstance().setClickListener(findViewById(R.id.barHome), view -> {
             FragManager.getInstance().showFragment(MainActivity.this, home, Define.ScreenState.Home);
-            TextUtility.showToastMessage(this, this.state.name());
+            UtilityManager.getInstance().showToastMessage(this.state.name());
         });
 
         ButtonManager.getInstance().setClickListener(findViewById(R.id.barWifi), view -> {
@@ -74,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             FragManager.getInstance().showFragment(MainActivity.this, wifi, Define.ScreenState.Wifi);
-            TextUtility.showToastMessage(this, this.state.name());
+            UtilityManager.getInstance().showToastMessage(this.state.name());
         });
 
         ButtonManager.getInstance().setClickListener(findViewById(R.id.barSetting), view -> {
             FragManager.getInstance().showFragment(MainActivity.this, setting, Define.ScreenState.Setting);
-            TextUtility.showToastMessage(this, this.state.name());
+            UtilityManager.getInstance().showToastMessage(this.state.name());
         });
 
         // ----------------Debug---------------------
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO
         ButtonManager.getInstance().setClickListener(findViewById(R.id.barBluetooth), view -> {
             FragManager.getInstance().showFragment(MainActivity.this, setting, Define.ScreenState.Setting);
-            TextUtility.showToastMessage(this, "개발중...");
+            UtilityManager.getInstance().showToastMessage("개발중...");
         });
         // ------------------------------------------
 
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
-            TextUtility.showToastMessage(this, "\'뒤로\' 버튼을 한번 더 누르면 종료됩니다.");
+            UtilityManager.getInstance().showToastMessage("\'뒤로\' 버튼을 한번 더 누르면 종료됩니다.");
             return;
         }
 
