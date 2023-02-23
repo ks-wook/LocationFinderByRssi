@@ -42,10 +42,8 @@ public class BroadCastThread extends Thread{
             serverIp = dp.getAddress().getHostAddress();
             Log.v("MainStation", "server IP : " + serverIp);
 
-            Connector connector = Connector.makeConnector(serverIp, TCP_PORT);
-            connector.Init();
 
-            UtilityManager.getInstance().showToastMessage("메인스테이션에 연결되었습니다.");
+            Connector.makeConnector(serverIp, TCP_PORT);
 
         }
         catch (Exception e)

@@ -3,6 +3,7 @@ package de.kai_morich.simple_bluetooth_le_terminal.MainStation;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import de.kai_morich.simple_bluetooth_le_terminal.Defines.Define;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.SessionManager;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ServerSession extends Session {
@@ -28,23 +29,15 @@ public class ServerSession extends Session {
         try
         {
             int packetId = data[1];
-            switch(packetId)
+
+            if(packetId == Define.PacketId.Sync.getValue()) // 위치 동기와 요청 패킷
             {
-                /*
-                // TODO
-                case 0: // sync
-                    SyncPacket syncPacket =  new SyncPacket(data[2], data[3], data[4]);
-                    syncPacket.printLog();
-                    break;
-                case 2: // disc
-                    DisconnectPacket discPacket = new DisconnectPacket(_channel);
-                    discPacket.printLog();
-                    this.Disconnect();
-                    break;
-
-                 */
+                SessionManager.CurrentSession().Send(Packet.sync);
             }
-
+            else if(packetId == Define.PacketId.Disc.getValue()) // 연결 종료 요청 패킷
+            {
+                SessionManager.CurrentSession().Disconnect();
+            }
 
         }
         catch(Exception e)

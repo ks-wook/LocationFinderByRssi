@@ -66,6 +66,9 @@ public abstract class Session {
                 {
                     try
                     {
+                        System.out.println(
+                                        "Log - " + "[" + Define.LogId.Recv.getValue() + "]" +
+                                        " - PacketID : " + _recvBuffer.array()[1] + " from " + _channel.getRemoteAddress());
                         OnRecv( _recvBuffer.array());
                     }
                     catch(Exception e)
@@ -105,15 +108,17 @@ public abstract class Session {
                 @Override
                 public void completed(Integer result, Void attachment)
                 {
-                    System.out.println(
-                                    "Log - " + "[" + Define.LogId.Send.getValue() + "]" +
-                                    " - PacketID : " + _sendBuffer.array()[1] + " Send to Server");
                     try
                     {
+                        System.out.println(
+                                        "Log - " + "[" + Define.LogId.Send.getValue() + "]" +
+                                        " - PacketID : " + _sendBuffer.array()[1] + " to " + _channel.getRemoteAddress());
+
                         _sendingQueue.poll();
                         OnSend(_sendBuffer.array());
                         if(!_sendingQueue.isEmpty()) // 보낼 패킷이 밀린경우 재호출
                             RegisterSend();
+
                     }
                     catch(Exception e)
                     {
@@ -136,9 +141,7 @@ public abstract class Session {
         {
             e.printStackTrace();
         }
-
+        Connector.isReadyToConnect = false;
         OnDisconnected();
-
     }
-
 }

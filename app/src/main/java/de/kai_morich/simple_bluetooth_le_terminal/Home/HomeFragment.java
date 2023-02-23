@@ -5,7 +5,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,15 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import de.kai_morich.simple_bluetooth_le_terminal.Defines.Define;
 import de.kai_morich.simple_bluetooth_le_terminal.MainStation.BroadCastThread;
-import de.kai_morich.simple_bluetooth_le_terminal.MainStation.Connector;
-import de.kai_morich.simple_bluetooth_le_terminal.MainStation.ServerSession;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ButtonManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.SessionManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ThreadManager;
@@ -32,7 +28,6 @@ import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class HomeFragment extends Fragment {
 
-    private static final int BROADCAST_PORT = 5000;
     NotificationManager manager;
     Activity _mainActivity;
     Intent _serviceIntent;
@@ -103,12 +98,7 @@ public class HomeFragment extends Fragment {
         // 메인스테이션 서비스가 현재 실행중인지를 확인
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_service_stop), view -> {
 
-            SharedPreferences pref = _mainActivity.getSharedPreferences("isRunning", _mainActivity.MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("isRunning", false);
-            editor.commit();
-
-            if(!pref.getBoolean("isRunning", false))
+            if(MainStationService.isOnService())
             {
                 if(SessionManager.CurrentSession() != null) // 연결 종료 패킷 전송
                     SessionManager.CurrentSession().Send(disc);
