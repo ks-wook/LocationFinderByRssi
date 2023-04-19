@@ -4,11 +4,12 @@ public class Define {
 
      static public enum ScreenState {
          Home,
-         Wifi,
-         WifiTest,
-         Bluetooth,
-         Setting,
-
+         Beacon,
+         Connection,
+         Settings,
+         AllBeacon,
+         SpecificBeacon,
+         PrimaryBeacon
     }
 
     public static enum PacketId {

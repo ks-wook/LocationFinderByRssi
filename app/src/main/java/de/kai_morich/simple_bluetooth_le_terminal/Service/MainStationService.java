@@ -43,7 +43,7 @@ public class MainStationService extends Service {
                     new Notification.Builder(getApplicationContext(), "1000")
                             .setContentTitle("LocationFinder Service")
                             .setContentText("위치 자동 갱신중...")
-                            .setSmallIcon(R.drawable.ic_notification)
+                            .setSmallIcon(R.drawable.bar_icon)
                             .setContentIntent(mPendingIntent)
                             .setAutoCancel(true)
                             .setOngoing(false)

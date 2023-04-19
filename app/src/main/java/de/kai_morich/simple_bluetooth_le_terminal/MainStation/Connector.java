@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 
 import de.kai_morich.simple_bluetooth_le_terminal.Defines.Define;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.SessionManager;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
 
 // 싱글턴 패턴 -> 커넥터는 only one
 @RequiresApi(api = Build.VERSION_CODES.O)

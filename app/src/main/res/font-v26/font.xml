@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <font android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/samsung_one_korean_200"/>
+
+    <font android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/samsung_one_korean_300"/>
+
+    <font android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/samsung_one_korean_400"/>
+
+    <font android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/samsung_one_korean_600"/>
+
+    <font android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/samsung_one_korean_700"/>
+
+</font-family>

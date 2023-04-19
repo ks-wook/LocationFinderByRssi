@@ -94,7 +94,6 @@ public class DevicesFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-
         if(getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH))
             bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         listAdapter = new ArrayAdapter<BluetoothDevice>(getActivity(), 0, listItems) {
@@ -102,6 +101,7 @@ public class DevicesFragment extends ListFragment {
             @Override
             public View getView(int position, View view, @NonNull ViewGroup parent) {
 
+                /*
                 BluetoothDevice device = listItems.get(position);
                 int rssi = rssiValues.get(position);
 
@@ -118,6 +118,8 @@ public class DevicesFragment extends ListFragment {
                     text1.setText(device.getName());
                 text2.setText(device.getAddress());
                 text3.setText("Rssi: " + Integer.toString(rssi));
+
+                 */
                 return view;
             }
         };
@@ -319,22 +321,6 @@ public class DevicesFragment extends ListFragment {
         Fragment fragment = new TerminalFragment();
         fragment.setArguments(args);
         getFragmentManager().beginTransaction().replace(R.id.fragment, fragment, "terminal").addToBackStack(null).commit();
-    }
-
-    /**
-     * sort by name, then address. sort named devices first
-     */
-    static int compareTo(BluetoothDevice a, BluetoothDevice b) {
-        boolean aValid = a.getName()!=null && !a.getName().isEmpty();
-        boolean bValid = b.getName()!=null && !b.getName().isEmpty();
-        if(aValid && bValid) {
-            int ret = a.getName().compareTo(b.getName());
-            if (ret != 0) return ret;
-            return a.getAddress().compareTo(b.getAddress());
-        }
-        if(aValid) return -1;
-        if(bValid) return +1;
-        return a.getAddress().compareTo(b.getAddress());
     }
 
 

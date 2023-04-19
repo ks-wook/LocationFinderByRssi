@@ -42,7 +42,6 @@ public class BroadCastThread extends Thread{
             serverIp = dp.getAddress().getHostAddress();
             Log.v("MainStation", "server IP : " + serverIp);
 
-
             Connector.makeConnector(serverIp, TCP_PORT);
 
         }

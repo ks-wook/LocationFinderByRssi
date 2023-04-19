@@ -5,11 +5,19 @@
     <color name="colorAccent">#ff6e40</color>
 
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorDark">#8D8D8D</color>
+    <color name="colorBackground">#F2F2F7</color>
     <color name="colorGray">#CCCCCC</color>
     <color name="colorBlack">#000000</color>
     <color name="colorDarkGray">#727272</color>
 
-    <color name="Green">#00FF00</color>
-    <color name="colorBlue">#82CAFF</color>
-    <color name="colorYellow">#FFDB58</color>
+    <color name="colorUiOn">#1A63F0</color>
+    <color name="colorUiOff">#8D8D8D</color>
+
+
+
+    <color name="colorGreen">#1EAB43</color>
+    <color name="colorBlue">#2668E0</color>
+    <color name="colorYellow">#D8871E</color>
+    <color name="colorRed">#E02626</color>
 </resources>
