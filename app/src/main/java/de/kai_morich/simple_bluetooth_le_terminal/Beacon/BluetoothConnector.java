@@ -60,7 +60,7 @@ public class BluetoothConnector {
     static BluetoothLeScanner bluetoothLeScanner;
 
     // 현재는 로컬에서만 관리 -> 메인스테이션 DB 에서 패킷을 받아오는 식으로 변경 계획
-    public static BluetoothConnector InitBleConnector(Activity activity)
+    public static void InitBleConnector(Activity activity)
     {
         // ------------------------- TEMP --------------------------
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -74,10 +74,7 @@ public class BluetoothConnector {
 
         // ------------------------- TEMP --------------------------
 
-        if(activity == null)
-            return null;
 
-        return new BluetoothConnector(activity);
     }
 
     public static void setCallBack(ScanCallback scanCallback)
@@ -97,6 +94,9 @@ public class BluetoothConnector {
         ScanSettings scanSettings = new ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
                 .build();
+
+
+
 
         bluetoothLeScanner.startScan(Arrays.asList(scanFilter), scanSettings, _scanCallback);
     }

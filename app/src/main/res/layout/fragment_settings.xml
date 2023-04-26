@@ -1,239 +1,586 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/allBeaconSetting"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorBackground" >
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/allBeaconSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ALL BEACON SETTINGS"
-            android:textColor="@color/colorGray"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/samsung_one_korean_600"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout4"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/corner_round_white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/allBeaconSettings">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/namespace"
+                android:id="@+id/allBeaconSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="Namespace ID"
+                android:text="ALL BEACON SETTINGS"
                 android:textColor="@color/colorGray"
-                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/samsung_one_korean_600"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-            </TextView>
-
-            <View
-                android:id="@+id/vertical1"
-                android:layout_width="2dp"
-                android:layout_height="110dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginBottom="0dp"
-                android:background="@color/colorGray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/namespace"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </View>
-
-            <EditText
-                android:id="@+id/editNamespaceID"
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="8dp"
-                android:text="dummy"
-                android:textColor="@color/colorBlack"
-                app:layout_constraintBottom_toTopOf="@+id/horizontal1"
-                app:layout_constraintStart_toEndOf="@+id/vertical1"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="TouchTargetSizeCheck">
-
-            </EditText>
-
-            <View
-                android:id="@+id/horizontal1"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout4"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginStart="10dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorGray"
-                android:textColor="@color/colorBlack"
+                android:background="@drawable/corner_round_white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/namespace">
+                app:layout_constraintTop_toBottomOf="@+id/allBeaconSettings">
 
-            </View>
+                <TextView
+                    android:id="@+id/namespace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Namespace ID"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+                <View
+                    android:id="@+id/vertical1"
+                    android:layout_width="2dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="@color/colorGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/namespace"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </View>
+
+                <EditText
+                    android:id="@+id/editNamespaceID"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="8dp"
+                    android:textSize="15sp"
+                    android:text="not setting"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintBottom_toTopOf="@+id/horizontal1"
+                    app:layout_constraintStart_toEndOf="@+id/vertical1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck">
+
+                </EditText>
+
+                <View
+                    android:id="@+id/horizontal1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorGray"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/namespace">
+
+                </View>
+
+                <TextView
+                    android:id="@+id/numberofrssi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Number of RSSI"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/namespace">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/editNumberOfRSSI"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="8dp"
+                    android:textSize="15sp"
+                    android:text="not setting"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintBottom_toTopOf="@+id/horizontal2"
+                    app:layout_constraintStart_toEndOf="@+id/vertical1"
+                    app:layout_constraintTop_toBottomOf="@+id/horizontal1"
+                    tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck">
+
+                </EditText>
+
+                <View
+                    android:id="@+id/horizontal2"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorGray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/numberofrssi">
+
+                </View>
+
+                <TextView
+                    android:id="@+id/scantime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Scan Time(sec)"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/numberofrssi">
+
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/editScanTime"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="8dp"
+                    android:textSize="15sp"
+                    android:text="not setting"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/vertical1"
+                    app:layout_constraintTop_toBottomOf="@+id/horizontal2"
+                    tools:ignore="TouchTargetSizeCheck">
+
+                </EditText>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/numberofrssi"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Number of RSSI"
-                android:textColor="@color/colorGray"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/namespace">
+                android:text="SPECIFIC BEACON"
+                android:textColor="@color/colorGray">
 
             </TextView>
 
-            <EditText
-                android:id="@+id/editNumberOfRSSI"
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="8dp"
-                android:text="dummy"
-                android:textColor="@color/colorBlack"
-                app:layout_constraintBottom_toTopOf="@+id/horizontal2"
-                app:layout_constraintStart_toEndOf="@+id/vertical1"
-                app:layout_constraintTop_toBottomOf="@+id/horizontal1"
-                tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck">
+            <LinearLayout
+                android:id="@+id/slot2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/corner_round_white">
 
-            </EditText>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Developing features..."
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/slot2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="PRIMARY BEACON"
+                android:textColor="@color/colorGray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/slot2">
+
+            </TextView>
+
+            <LinearLayout
+                android:id="@+id/slot3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/corner_round_white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Developing features..."
+                    android:textColor="@color/colorGray"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/slot3">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Test Connect"
+                    android:textColor="@color/colorGray"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/samsung_one_korean_600"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/settings_search_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:text="Search"
+                    android:background="@drawable/corner_round_blue">
+
+                </Button>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/corner_round_white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="IP Address"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </TextView>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="39dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/colorGray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/namespace"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </View>
+
+                    <EditText
+                        android:id="@+id/edit_ip_address"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="8dp"
+                        android:textSize="15sp"
+                        android:text="not setting"
+                        android:textColor="@color/colorBlack"
+                        app:layout_constraintBottom_toTopOf="@+id/horizontal1"
+                        app:layout_constraintStart_toEndOf="@+id/vertical1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="TouchTargetSizeCheck">
+
+                    </EditText>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/colorGray"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/namespace">
+
+                </View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Port Number"
+                        android:textColor="@color/colorGray"
+                        android:textSize="15sp">
+
+                    </TextView>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/colorGray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/namespace"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </View>
+
+                    <EditText
+                        android:id="@+id/edit_port_number"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:text="not setting"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="15sp"
+                        tools:ignore="TouchTargetSizeCheck">
+
+                    </EditText>
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="DATA TRANSFER"
+                android:textColor="@color/colorGray">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/corner_round_white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Developing features..."
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="POSITION CALCULATE"
+                android:textColor="@color/colorGray">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/corner_round_white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Developing features..."
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/slot2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="SYSTEM VERSION"
+                android:textColor="@color/colorGray">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/corner_round_white"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Version"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </TextView>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="59dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/namespace"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </View>
+
+                <EditText
+                    android:id="@+id/edit_system_version"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="8dp"
+                    android:textSize="15sp"
+                    android:text="1.2.3"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintBottom_toTopOf="@+id/horizontal1"
+                    app:layout_constraintStart_toEndOf="@+id/vertical1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck">
+
+                </EditText>
+
+            </LinearLayout>
 
             <View
-                android:id="@+id/horizontal2"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:background="@color/colorGray"
+                android:textColor="@color/colorBlack"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/numberofrssi">
+                app:layout_constraintTop_toBottomOf="@+id/namespace">
 
             </View>
 
-            <TextView
-                android:id="@+id/scantime"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:text="Scan Time(sec)"
-                android:textColor="@color/colorGray"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/numberofrssi">
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Build"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp">
 
-            </TextView>
+                </TextView>
 
-            <EditText
-                android:id="@+id/editScanTime"
-                android:layout_width="200dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="8dp"
-                android:text="dummy"
-                android:textColor="@color/colorBlack"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/vertical1"
-                app:layout_constraintTop_toBottomOf="@+id/horizontal2"
-                tools:ignore="TouchTargetSizeCheck">
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="77dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorGray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/namespace"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </EditText>
+                </View>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <EditText
+                    android:id="@+id/edit_system_build"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:text="dummy"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    tools:ignore="TouchTargetSizeCheck">
 
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="SPECIFIC BEACON"
-            android:textColor="@color/colorGray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+                </EditText>
 
-        </TextView>
+            </LinearLayout>
+            </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/slot2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/corner_round_white"
-            app:layout_constraintTop_toBottomOf="@+id/textView14">
+        </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Developing features..."
-                android:textColor="@color/colorGray"
-                android:layout_marginLeft="30dp"
-                android:textSize="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+    </ScrollView>
 
-            </TextView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="PRIMARY BEACON"
-            android:textColor="@color/colorGray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/slot2">
-
-        </TextView>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/corner_round_white"
-            app:layout_constraintTop_toBottomOf="@+id/textView15">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Developing features..."
-                android:textColor="@color/colorGray"
-                android:layout_marginLeft="30dp"
-                android:textSize="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </TextView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

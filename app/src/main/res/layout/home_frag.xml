@@ -7,97 +7,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/corner_round_white"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="0dp">
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This is home"
-            android:fontFamily="@font/samsung_one_korean_200"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:background="@drawable/corner_round_white">
 
         <Button
             android:id="@+id/ms_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search MainStation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Search MainStation" />
 
         <Button
             android:id="@+id/ms_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send"
-            app:layout_constraintStart_toEndOf="@+id/ms_search"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Send" />
 
         <Button
             android:id="@+id/ms_disconnect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DisConnect"
-            app:layout_constraintStart_toEndOf="@+id/ms_send"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="DisConnect" />
 
         <Button
             android:id="@+id/ms_service_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="StartService"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ms_search" />
+            android:text="StartService" />
 
         <Button
             android:id="@+id/ms_service_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="StopService"
-            app:layout_constraintStart_toEndOf="@+id/ms_service_start"
-            app:layout_constraintTop_toBottomOf="@+id/ms_search" />
+            android:text="StopService" />
 
-        <Button
-            android:id="@+id/bluetooth_scan_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bluetooth scan start"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ms_service_start" />
-
-        <Button
-            android:id="@+id/bluetooth_scan_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bluetooth scan stop"
-            app:layout_constraintStart_toEndOf="@+id/bluetooth_scan_start"
-            app:layout_constraintTop_toBottomOf="@+id/ms_service_stop" />
 
         <Button
             android:id="@+id/bluetooth_register_room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RegisterRoom"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bluetooth_scan_start" />
+            android:text="RegisterRoom" />
 
         <Button
             android:id="@+id/bluetooth_register_beacon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RegisterBeacon"
-            app:layout_constraintStart_toEndOf="@+id/bluetooth_register_room"
-            app:layout_constraintTop_toBottomOf="@+id/bluetooth_scan_stop" />
+            android:text="RegisterBeacon"/>
+    </LinearLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

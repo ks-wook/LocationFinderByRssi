@@ -141,7 +141,7 @@ public abstract class Session {
         {
             e.printStackTrace();
         }
-        Connector.isReadyToConnect = false;
+        MainStationConnector.isReadyToConnect = false;
         OnDisconnected();
     }
 }

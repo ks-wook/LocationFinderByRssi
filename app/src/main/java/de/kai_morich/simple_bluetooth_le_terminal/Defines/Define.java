@@ -9,7 +9,10 @@ public class Define {
          Settings,
          AllBeacon,
          SpecificBeacon,
-         PrimaryBeacon
+         PrimaryBeacon,
+         TestConnect,
+         DataTransfer,
+         PositionCalculate,
     }
 
     public static enum PacketId {

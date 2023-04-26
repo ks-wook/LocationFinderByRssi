@@ -56,6 +56,16 @@ public class FragManager {
 
     }
 
+    public <T> T getFragment(String fragName) {
+        for(Fragment f : _fragments)
+        {
+           if(f.getClass().getSimpleName().equals(fragName))
+                return (T)f;
+        }
+
+        return null;
+    }
+
     public void removeFragment(Activity activity, Fragment frag)
     {
         ((MainActivity)activity).getSupportFragmentManager().beginTransaction().remove(frag).commit();

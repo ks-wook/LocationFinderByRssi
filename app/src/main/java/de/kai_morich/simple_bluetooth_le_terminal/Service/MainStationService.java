@@ -11,7 +11,7 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import de.kai_morich.simple_bluetooth_le_terminal.MainActivity;
-import de.kai_morich.simple_bluetooth_le_terminal.MainStation.Connector;
+import de.kai_morich.simple_bluetooth_le_terminal.MainStation.MainStationConnector;
 import de.kai_morich.simple_bluetooth_le_terminal.R;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
 
@@ -57,7 +57,7 @@ public class MainStationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if(!OnService) {
-            if(Connector.isReadyToConnect)
+            if(MainStationConnector.isReadyToConnect)
             {
                 _serviceThread.start();
 
@@ -86,8 +86,8 @@ public class MainStationService extends Service {
         public void run() {
             OnService = true;
 
-            Connector connector = Connector.GetConnector();
-            connector.Init(); // connect
+            MainStationConnector mainStationConnector = MainStationConnector.GetConnector();
+            // mainStationConnector.Init(); // connect
 
         }
     }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -18,21 +19,21 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import de.kai_morich.simple_bluetooth_le_terminal.Beacon.AllBeaconFragment;
 import de.kai_morich.simple_bluetooth_le_terminal.Beacon.BeaconFragment;
 import de.kai_morich.simple_bluetooth_le_terminal.Beacon.BluetoothConnector;
 import de.kai_morich.simple_bluetooth_le_terminal.Connection.ConnectionFragment;
+import de.kai_morich.simple_bluetooth_le_terminal.Connection.TestConnectFragment;
 import de.kai_morich.simple_bluetooth_le_terminal.Defines.Define;
 import de.kai_morich.simple_bluetooth_le_terminal.Home.HomeFragment;
+import de.kai_morich.simple_bluetooth_le_terminal.MainStation.BroadCastThread;
+import de.kai_morich.simple_bluetooth_le_terminal.MainStation.MainStationConnector;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ButtonManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.FragManager;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.ThreadManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Setting.SettingFragment;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
+
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class MainActivity extends AppCompatActivity {
@@ -41,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private final BeaconFragment beacon = new BeaconFragment();
     private final ConnectionFragment connection = new ConnectionFragment();
     private final SettingFragment setting = new SettingFragment();
-
-    BluetoothConnector bluetoothConnector;
-
 
     public static Define.ScreenState state = Define.ScreenState.Home;
 
@@ -55,11 +53,14 @@ public class MainActivity extends AppCompatActivity {
         ScreenInit();
         btnInit();
 
-        bluetoothConnector = BluetoothConnector.InitBleConnector(this);
-        if(bluetoothConnector == null)
-            UtilityManager.getInstance().showToastMessage("블루투스 초기화 실패. 다시 실행해 주세요.");
+        MainStationConnector.InitConnector(this);
+        BluetoothConnector.InitBleConnector(this);
+
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 세로 고정
+
+
+
     }
 
     public void ScreenInit() {
@@ -79,14 +80,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         // Default
-        FragManager.getInstance().addAndHideFragment(this, R.id.MainContainer, home, "Home", Define.ScreenState.Home, false);
+        FragManager.getInstance().addAndHideFragment(this, R.id.MainContainer, home, "Home", Define.ScreenState.Home, true);
         FragManager.getInstance().addAndHideFragment(this, R.id.MainContainer, beacon, "Beacon", Define.ScreenState.Beacon, true);
         FragManager.getInstance().addAndHideFragment(this, R.id.MainContainer, connection, "Connection", Define.ScreenState.Connection, true);
         FragManager.getInstance().addAndHideFragment(this, R.id.MainContainer, setting, "Settings", Define.ScreenState.Settings, true);
 
-
+        FragManager.getInstance().showFragment(MainActivity.this, home, Define.ScreenState.Home);
         UtilityManager.getInstance().Init(this);
+
     }
 
     public void btnInit() {
@@ -119,11 +122,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if(state == Define.ScreenState.AllBeacon)
+        if(state == Define.ScreenState.AllBeacon
+                || state == Define.ScreenState.SpecificBeacon || state == Define.ScreenState.PrimaryBeacon)
         {
             FragManager.getInstance().showFragment(MainActivity.this, beacon, Define.ScreenState.Beacon);
             return;
         }
+        else if(state == Define.ScreenState.TestConnect
+                || state == Define.ScreenState.DataTransfer || state == Define.ScreenState.PositionCalculate)
+        {
+            FragManager.getInstance().showFragment(MainActivity.this, connection, Define.ScreenState.Connection);
+            return;
+        }
+
 
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
@@ -139,12 +150,13 @@ public class MainActivity extends AppCompatActivity {
     public void setState(Define.ScreenState s)
     {
         this.state = s;
-        RefreshUI();
+        HandleState();
     }
 
     @SuppressLint({"ResourceAsColor", "UseCompatLoadingForDrawables"})
-    private void RefreshUI()
+    private void HandleState()
     {
+
         if(this.state == Define.ScreenState.Home)
         {
             ((ImageButton)findViewById(R.id.barHome)).setImageResource(R.drawable.ic_house_on);
@@ -220,12 +232,14 @@ public class MainActivity extends AppCompatActivity {
             ButtonManager.getInstance().setClickListener(btn, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO 화면의 값 저장
+                    // TODO : 화면의 값 저장
                 }
             });
         }
-        else if(MainActivity.state == Define.ScreenState.AllBeacon)
+        else if(this.state == Define.ScreenState.AllBeacon)
         {
+            // ((TextView)findViewById(R.id.title_action_bar)).setText("All Beacon");
+
             Button btn = findViewById(R.id.btn_action_bar);
             btn.setText("Scan");
             btn.setVisibility(View.VISIBLE);
@@ -252,6 +266,55 @@ public class MainActivity extends AppCompatActivity {
                     btn.setBackground(getDrawable(R.drawable.corner_round_blue));
 
 
+                }
+            });
+
+        }
+        else if(this.state == Define.ScreenState.TestConnect)
+        {
+            ((TextView)findViewById(R.id.title_action_bar)).setText("Test Connect");
+
+            Button btn = findViewById(R.id.btn_action_bar);
+            btn.setText("CONNECTION");
+            btn.setVisibility(View.VISIBLE);
+            btn.setBackground(getDrawable(R.drawable.corner_round_blue));
+            
+            ButtonManager.getInstance().setClickListener(btn, null);
+            ButtonManager.getInstance().setClickListener(btn, view -> {
+
+                if(btn.getText().equals("CONNECTION")) // 연결 시도
+                {
+                    if(MainStationConnector.GetConnector() == null) {
+                        Log.v("error", "null exception");
+                        UtilityManager.getInstance().showToastMessage("메인스테이션 연결이 초기화되지 않았습니다.");
+                        return;
+                    }
+
+                    TestConnectFragment testConnectFragment = FragManager.getInstance().getFragment("TestConnectFragment");
+
+                    ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_receive)).setText("");
+                    ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_message)).setText("");
+                    ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_hex)).setText("");
+                    ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_int)).setText("");
+                    ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_float)).setText("");
+                    testConnectFragment.getActivity().findViewById(R.id.test_connect_disconnected_container).setVisibility(View.INVISIBLE);
+
+
+                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Connect()));
+
+                    btn.setText("Disconnection");
+                    btn.setBackground(getDrawable(R.drawable.corner_round_red));
+                }
+                else // 연결 종료
+                {
+                    TestConnectFragment testConnectFragment = FragManager.getInstance().getFragment("TestConnectFragment");
+                    testConnectFragment.getActivity().findViewById(R.id.test_connect_disconnected_container).setVisibility(View.VISIBLE);
+
+                    // TODO : 연결 종료 처리
+                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Disconnect()));
+
+                    btn.setText("CONNECTION");
+                    btn.setBackground(getDrawable(R.drawable.corner_round_blue));
                 }
             });
 

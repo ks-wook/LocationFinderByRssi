@@ -59,10 +59,7 @@ public class BeaconFragment extends Fragment {
         ButtonManager.getInstance().setTxtClickListener(getActivity().findViewById(R.id.allBeacon), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("test", "all beacon");
-
                 FragManager.getInstance().showFragment(getActivity(), allBeacon, Define.ScreenState.AllBeacon);
-
             }
         });
 
@@ -87,9 +84,7 @@ public class BeaconFragment extends Fragment {
     public void ScreenInit()
     {
         // TODO 기타 2개의 다른 프래그먼트 추가 및 초기화
-        FragManager.getInstance().addAndHideFragment(getActivity(), R.id.MainContainer, allBeacon, "AllBeacon", Define.ScreenState.AllBeacon, false);
-
-
+        FragManager.getInstance().addAndHideFragment(getActivity(), R.id.MainContainer, allBeacon, "AllBeacon", Define.ScreenState.AllBeacon, true);
 
     }
 

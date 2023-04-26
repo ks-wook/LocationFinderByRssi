@@ -18,7 +18,9 @@ import android.view.ViewGroup;
 
 import de.kai_morich.simple_bluetooth_le_terminal.Beacon.BluetoothConnector;
 import de.kai_morich.simple_bluetooth_le_terminal.Defines.Define;
+import de.kai_morich.simple_bluetooth_le_terminal.MainActivity;
 import de.kai_morich.simple_bluetooth_le_terminal.MainStation.BroadCastThread;
+import de.kai_morich.simple_bluetooth_le_terminal.MainStation.MainStationConnector;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ButtonManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.SessionManager;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.ThreadManager;
@@ -70,15 +72,13 @@ public class HomeFragment extends Fragment {
 
         _mainActivity = getActivity();
 
+        // TEST : 연결 테스트 버튼
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_search),
                 view -> ThreadManager.startThread(new BroadCastThread()));
 
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_send),
                 view -> {
-            if(SessionManager.CurrentSession() != null)
-                SessionManager.CurrentSession().Send(sync);
-            else
-                UtilityManager.getInstance().showToastMessage("메인스테이션 세션이 등록되지 않았습니다.");
+                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().SendTestMsg()));
         });
 
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_disconnect),
@@ -91,37 +91,11 @@ public class HomeFragment extends Fragment {
     }
 
     public void blueToothInit() {
-        BluetoothConnector bluetoothConnector = BluetoothConnector.InitBleConnector(getActivity());
-
-
-
-        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.bluetooth_scan_start), view -> {
-            assert bluetoothConnector != null;
-            bluetoothConnector.startScan();
-        });
-
-        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.bluetooth_scan_stop), view -> {
-            assert bluetoothConnector != null;
-            bluetoothConnector.stopScan();
-        });
-
-        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.bluetooth_register_room), view -> {
-            assert bluetoothConnector != null;
-            bluetoothConnector.RegisterRoom();
-        });
-
-        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.bluetooth_register_beacon), view -> {
-            assert bluetoothConnector != null;
-            if(!bluetoothConnector.RegisterBeacon())
-                UtilityManager.getInstance().showToastMessage("등록된 방이 없습니다.");
-        });
-
-
 
     }
 
-    public void serviceInit() {
-        
+    public void serviceInit()
+    {
         createNotificationChannel();
         _serviceIntent = new Intent(_mainActivity.getApplicationContext(), MainStationService.class);
 
