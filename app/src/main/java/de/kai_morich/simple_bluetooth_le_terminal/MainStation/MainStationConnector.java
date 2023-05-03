@@ -118,19 +118,43 @@ public class MainStationConnector
 
     public void Select() {
         try {
-            JSONObject object = new JSONObject();
-            object.put("table", "user");
 
-            socket.emit("select", object);
+            JSONObject allSearch = new JSONObject();
+            allSearch.put("table", "beacon");
+            socket.emit("select", allSearch);
+
+
+            // 방 1에 있는 모든 비콘 검색
+            JSONObject room1Search = new JSONObject();
+            room1Search.put("table", "beacon");
+            room1Search.put("ID", beaconSpaceID1);
+            socket.emit("select", room1Search);
+
+            // 등록된 모든 primary 비콘 검색
+            JSONObject primarySearch = new JSONObject();
+            primarySearch.put("table", "beacon");
+            primarySearch.put("isPrimary", true);
+            socket.emit("select", primarySearch);
+
+
+            // 방1의 primary 비콘 검색
+            JSONObject room1PrimarySearch = new JSONObject();
+            room1PrimarySearch.put("table", "beacon");
+            room1PrimarySearch.put("ID", beaconSpaceID1);
+            room1PrimarySearch.put("isPrimary", true);
+            socket.emit("select", room1PrimarySearch);
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
+    // DB Control
     public void Insert() {
         try {
-
+            // Test : 비콘 테스트 데이터 삽입
             JSONObject room1beacon1 = new JSONObject();
             room1beacon1.put("table", "beacon");
             room1beacon1.put("SpaceID", beaconSpaceID1);
@@ -236,27 +260,27 @@ public class MainStationConnector
 
 
 
-
+    String[] resulsStr = {"Search all beacon", "Search room1 beacon", "Search all primary beacon", "Search room1 primary beacon"};
+    int index = 0;
     // DB Event Handler
     private Emitter.Listener OnSelectResult = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             System.out.println("OnSelectResult call");
 
+
             try{
 
                 JSONArray jsonArray = (JSONArray) args[0];
-                System.out.println(jsonArray.toString());
+                // System.out.println(jsonArray.toString());
 
-                /*
+                System.out.println(resulsStr[index++]);
+
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    int id = jsonObject.getInt("ID");
-                    String name = jsonObject.getString("name");
-                    System.out.println(id + " : " + name);
+                    System.out.println(jsonObject.toString());
+                    System.out.println("");
                 }
-
-                 */
 
             } catch (Exception e) {
                 e.printStackTrace();
