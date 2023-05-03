@@ -131,31 +131,65 @@ public class MainStationConnector
     public void Insert() {
         try {
 
-            JSONObject insertData = new JSONObject();
-            insertData.put("table", "user");
-            insertData.put("User_name", "테스트유저");
+            JSONObject room1beacon1 = new JSONObject();
+            room1beacon1.put("table", "beacon");
+            room1beacon1.put("SpaceID", beaconSpaceID1);
+            room1beacon1.put("Pos_X", 1f);
+            room1beacon1.put("Pos_Y", 2f);
+            room1beacon1.put("Power", 100);
+            room1beacon1.put("isPrimary", true);
 
-            socket.emit("insert", insertData);
+            socket.emit("insert", room1beacon1);
 
-            JSONObject insertData1 = new JSONObject();
-            insertData1.put("table", "space");
-            insertData1.put("Familiar_name", "방1");
-            insertData1.put("Size_X", 3f);
-            insertData1.put("Size_Y", 5f);
+            JSONObject room1beacon2 = new JSONObject();
+            room1beacon2.put("table", "beacon");
+            room1beacon2.put("SpaceID", beaconSpaceID1);
+            room1beacon2.put("Pos_X", 3f);
+            room1beacon2.put("Pos_Y", 4f);
+            room1beacon2.put("Power", 100);
+            room1beacon2.put("isPrimary", false);
 
-            socket.emit("insert", insertData1);
+            socket.emit("insert", room1beacon2);
 
-            JSONObject insertData2 = new JSONObject();
-            insertData2.put("table", "space");
-            insertData2.put("Familiar_name", "방2");
-            insertData2.put("Size_X", 4f);
-            insertData2.put("Size_Y", 3f);
+            JSONObject room1beacon3 = new JSONObject();
+            room1beacon3.put("table", "beacon");
+            room1beacon3.put("SpaceID", beaconSpaceID1);
+            room1beacon3.put("Pos_X", 1f);
+            room1beacon3.put("Pos_Y", 2f);
+            room1beacon3.put("Power", 100);
+            room1beacon3.put("isPrimary", false);
 
-            socket.emit("insert", insertData2);
+            socket.emit("insert", room1beacon3);
 
+            JSONObject room2beacon1 = new JSONObject();
+            room2beacon1.put("table", "beacon");
+            room2beacon1.put("SpaceID", beaconSpaceID2);
+            room2beacon1.put("Pos_X", 1f);
+            room2beacon1.put("Pos_Y", 2f);
+            room2beacon1.put("Power", 100);
+            room2beacon1.put("isPrimary", true);
 
+            socket.emit("insert", room2beacon1);
 
+            JSONObject room2beacon2 = new JSONObject();
+            room2beacon2.put("table", "beacon");
+            room2beacon2.put("SpaceID", beaconSpaceID2);
+            room2beacon2.put("Pos_X", 3f);
+            room2beacon2.put("Pos_Y", 4f);
+            room2beacon2.put("Power", 100);
+            room2beacon2.put("isPrimary", false);
 
+            socket.emit("insert", room2beacon2);
+
+            JSONObject room2beacon3 = new JSONObject();
+            room2beacon3.put("table", "beacon");
+            room2beacon3.put("SpaceID", beaconSpaceID2);
+            room2beacon3.put("Pos_X", 1f);
+            room2beacon3.put("Pos_Y", 2f);
+            room2beacon3.put("Power", 100);
+            room2beacon3.put("isPrimary", false);
+
+            socket.emit("insert", room2beacon3);
 
 
         } catch (Exception e) {
