@@ -41,11 +41,9 @@ public class MainStationConnector
     int port;
 
     private static MainStationConnector _instance = null;
-
     public static boolean isReadyToConnect = false;
 
-    static public void makeConnector(String ip, int port)
-    {
+    static public void makeConnector(String ip, int port) {
         _instance = new MainStationConnector(ip, port);
         isReadyToConnect = true;
     }
@@ -75,6 +73,7 @@ public class MainStationConnector
 
     }
 
+    // Connect Control
     public void Connect() {
         try {
             IO.Options opts = new IO.Options();
@@ -84,10 +83,14 @@ public class MainStationConnector
             socket = IO.socket(this.ServerIP);
             
             // 이벤트 리스너 등록
-            socket.on(Socket.EVENT_CONNECT, onConnect);
-            socket.on(Socket.EVENT_DISCONNECT, onDisconnect);
-            socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
-            socket.on("test_response", onResMessage);
+            socket.on(Socket.EVENT_CONNECT, OnConnect);
+            socket.on(Socket.EVENT_DISCONNECT, OnDisconnect);
+            socket.on(Socket.EVENT_CONNECT_ERROR, OnConnectError);
+
+            socket.on("select_result", OnSelectResult);
+            socket.on("insert_result", OnInsertResult);
+            // socket.on("update_result", OnUpdateResult);
+            
 
             socket.connect();
         } catch (Exception e) {
@@ -96,31 +99,50 @@ public class MainStationConnector
 
     }
 
-
-    // TEST
-    public void SendTestMsg()
-    {
+    public void Disconnect() {
         try {
-            this.sendTestMessage("Test Connection To Server");
-        }
-        catch (Exception e) {
+
+            socket.disconnect();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void Select() {
+        try {
+            JSONObject object = new JSONObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void Insert() {
+        try {
 
-    private Emitter.Listener onConnect = new Emitter.Listener() {
+            JSONObject insertData = new JSONObject();
+            insertData.put("table", "user");
+            insertData.put("User_name", "테스트유저");
+
+            socket.emit("insert", insertData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Session Event Handler
+    private Emitter.Listener OnConnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             Log.d("MS", "Connected to server");
             
             // TEST : 연결 확인 후 테스트 리퀘스트 전송
-            SendTestMsg();
+            // SendTestMsg();
         }
     };
 
-    private Emitter.Listener onDisconnect = new Emitter.Listener() {
+    private Emitter.Listener OnDisconnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             Log.d("MS", "Disconnected from server");
@@ -138,79 +160,42 @@ public class MainStationConnector
         }
     };
 
-    private Emitter.Listener onConnectError = new Emitter.Listener() {
+    private Emitter.Listener OnConnectError = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             Log.d("MS", "Connection error: " + args[0].toString());
         }
     };
 
-    private Emitter.Listener onResMessage = new Emitter.Listener() {
-        @SuppressLint("SetTextI18n")
+
+
+
+
+    // DB Event Handler
+    private Emitter.Listener OnSelectResult = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            try {
-                JSONObject data = (JSONObject) args[0];
+            System.out.println("OnSelectResult call");
 
-                _mainActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        try{
-                            TestConnectFragment testConnectFragment = FragManager.getInstance().getFragment("TestConnectFragment");
-                            testConnectFragment.getActivity().findViewById(R.id.test_connect_connection_container).setVisibility(View.VISIBLE);
-
-                            ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_receive)).setText("Test Data from Server");
-                            ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_message)).setText(data.getString("message"));
-                            ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_hex)).setText(data.getString("hex"));
-                            ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_int)).setText(Integer.toString(data.getInt("int")));
-                            ((TextView)testConnectFragment.getActivity().findViewById(R.id.test_connect_float)).setText(Double.toString(data.getDouble("float")));
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-
-
-
-                Log.d("MS", "Received message: " + data.getString("message"));
-                Log.d("MS", "Received message: " + data.getString("hex"));
-                Log.d("MS", "Received message: " + data.getInt("int"));
-                Log.d("MS", "Received message: " + data.getDouble("float"));
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            JSONObject object = (JSONObject) args[0];
 
         }
     };
 
-    private void sendTestMessage(String message) {
-        try {
-            JSONObject data = new JSONObject();
-            data.put("message", message);
-            data.put("hex", "0xAABBCCDDEEFF");
-            data.put("int", 123456789);
-            data.put("float", 1.23456789);
+    private Emitter.Listener OnInsertResult = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("OnSelectResult call");
 
-            socket.emit("test_request", data);
+            JSONObject object = (JSONObject) args[0];
 
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }
+    };
 
-    public void Disconnect() {
-        try {
 
-            socket.disconnect();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
+
 
 
 
