@@ -12,12 +12,14 @@ import androidx.annotation.RequiresApi;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.spec.ECField;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 import de.kai_morich.simple_bluetooth_le_terminal.Connection.TestConnectFragment;
 import de.kai_morich.simple_bluetooth_le_terminal.MainActivity;
@@ -34,6 +36,11 @@ import io.socket.engineio.client.transports.WebSocket;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class MainStationConnector
 {
+    // Test
+    byte[] beaconSpaceID1 = new byte[] {(byte)60, (byte)26, (byte)47, (byte)192, (byte)223, (byte)163};
+    byte[] beaconSpaceID2 = new byte[] {(byte)50, (byte)108, (byte)251, (byte)64, (byte)168, (byte)16};
+
+
     public static MainActivity _mainActivity;
 
     Socket socket;
@@ -112,6 +119,10 @@ public class MainStationConnector
     public void Select() {
         try {
             JSONObject object = new JSONObject();
+            object.put("table", "user");
+
+            socket.emit("select", object);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,6 +136,27 @@ public class MainStationConnector
             insertData.put("User_name", "테스트유저");
 
             socket.emit("insert", insertData);
+
+            JSONObject insertData1 = new JSONObject();
+            insertData1.put("table", "space");
+            insertData1.put("Familiar_name", "방1");
+            insertData1.put("Size_X", 3f);
+            insertData1.put("Size_Y", 5f);
+
+            socket.emit("insert", insertData1);
+
+            JSONObject insertData2 = new JSONObject();
+            insertData2.put("table", "space");
+            insertData2.put("Familiar_name", "방2");
+            insertData2.put("Size_X", 4f);
+            insertData2.put("Size_Y", 3f);
+
+            socket.emit("insert", insertData2);
+
+
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,7 +209,25 @@ public class MainStationConnector
         public void call(Object... args) {
             System.out.println("OnSelectResult call");
 
-            JSONObject object = (JSONObject) args[0];
+            try{
+
+                JSONArray jsonArray = (JSONArray) args[0];
+                System.out.println(jsonArray.toString());
+
+                /*
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    int id = jsonObject.getInt("ID");
+                    String name = jsonObject.getString("name");
+                    System.out.println(id + " : " + name);
+                }
+
+                 */
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
         }
     };

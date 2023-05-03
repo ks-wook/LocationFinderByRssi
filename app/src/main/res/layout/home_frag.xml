@@ -20,10 +20,28 @@
             android:text="Search MainStation" />
 
         <Button
-            android:id="@+id/ms_send"
+            android:id="@+id/ms_connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send" />
+            android:text="connect" />
+
+        <Button
+            android:id="@+id/ms_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="select" />
+
+        <Button
+            android:id="@+id/ms_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="insert" />
+
+        <Button
+            android:id="@+id/ms_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="update" />
 
         <Button
             android:id="@+id/ms_disconnect"

@@ -76,10 +76,26 @@ public class HomeFragment extends Fragment {
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_search),
                 view -> ThreadManager.startThread(new BroadCastThread()));
 
-        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_send),
+        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_connect),
                 view -> {
-                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().SendTestMsg()));
-        });
+                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Connect()));
+                });
+
+        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_select),
+                view -> {
+                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Select()));
+                });
+
+        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_insert),
+                view -> {
+                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Insert()));
+                });
+
+        /*ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_update),
+                view -> {
+                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Insert()));
+                });*/
+
 
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_disconnect),
                 view -> {
