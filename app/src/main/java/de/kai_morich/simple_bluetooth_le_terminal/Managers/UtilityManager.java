@@ -29,12 +29,26 @@ public class UtilityManager {
         }
     }
 
+
+
+    // using get instance
     public void showToastMessage(String msg) {
         Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public void showToastMessage(Context context, String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    // static function
+    public static String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+        return sb.toString();
     }
 }
 

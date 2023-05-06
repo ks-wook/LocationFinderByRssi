@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutionException;
 import de.kai_morich.simple_bluetooth_le_terminal.Connection.TestConnectFragment;
 import de.kai_morich.simple_bluetooth_le_terminal.MainActivity;
 import de.kai_morich.simple_bluetooth_le_terminal.Managers.FragManager;
+import de.kai_morich.simple_bluetooth_le_terminal.Managers.UtilityManager;
 import de.kai_morich.simple_bluetooth_le_terminal.R;
 import de.kai_morich.simple_bluetooth_le_terminal.Setting.SettingFragment;
 import io.socket.client.IO;
@@ -38,8 +39,11 @@ import io.socket.engineio.client.transports.WebSocket;
 public class MainStationConnector
 {
     // Test
-    byte[] beaconSpaceID1 = new byte[] {(byte)60, (byte)165, (byte)109, (byte)132, (byte)63, (byte)183};
-    byte[] beaconSpaceID2 = new byte[] {(byte)39, (byte)8, (byte)1, (byte)15, (byte)91, (byte)33};
+    byte[] beaconSpaceID1 = new byte[] {(byte)52, (byte)176, (byte)16, (byte)44, (byte)154, (byte)64};
+    byte[] beaconSpaceID2 = new byte[] {(byte)50, (byte)185, (byte)167, (byte)224, (byte)160, (byte)12};
+    String SpaceIDStr1 = "202396B96EF1";
+    String SpaceIDStr2 = "2708010F5B21";
+
 
     String[] resulsStr = {"Search all beacon", "Search room1 beacon", "Search all primary beacon", "Search room1 primary beacon", "Target ID Search"};
     int index = 0;
@@ -136,27 +140,27 @@ public class MainStationConnector
             // 방 1에 있는 모든 비콘 검색
             JSONObject room1Search = new JSONObject();
             room1Search.put("table", "Beacon");
-            room1Search.put("ID", beaconSpaceID1);
+            room1Search.put("ID", SpaceIDStr1);
             socket.emit("select", room1Search);
 
             // 등록된 모든 primary 비콘 검색
             JSONObject primarySearch = new JSONObject();
             primarySearch.put("table", "Beacon");
-            primarySearch.put("isPrimary", true);
+            primarySearch.put("isPrimary", "1");
             socket.emit("select", primarySearch);
 
 
             // 방1의 primary 비콘 검색
             JSONObject room1PrimarySearch = new JSONObject();
             room1PrimarySearch.put("table", "Beacon");
-            room1PrimarySearch.put("ID", beaconSpaceID1);
-            room1PrimarySearch.put("isPrimary", true);
+            room1PrimarySearch.put("ID", SpaceIDStr2);
+            room1PrimarySearch.put("isPrimary", "1");
             socket.emit("select", room1PrimarySearch);
 
             JSONObject targetSearch = new JSONObject();
             targetSearch.put("table", "Space");
-            targetSearch.put("ID", beaconSpaceID1);
-            targetSearch.put("setTarget", 1);
+            targetSearch.put("ID", SpaceIDStr1);
+            targetSearch.put("setTarget", "1");
             socket.emit("select", targetSearch);
 
 
@@ -167,72 +171,82 @@ public class MainStationConnector
 
     public void Insert() {
         try {
-            /*// Test : 비콘 테스트 데이터 삽입
+
+            /*System.out.println(UtilityManager.bytesToHex(beaconSpaceID1));
+            System.out.println(UtilityManager.bytesToHex(beaconSpaceID2));*/
+
+            // Test : 비콘 테스트 데이터 삽입
             JSONObject room1beacon1 = new JSONObject();
-            room1beacon1.put("table", "beacon");
-            room1beacon1.put("SpaceID", beaconSpaceID1);
-            room1beacon1.put("Pos_X", 1f);
-            room1beacon1.put("Pos_Y", 2f);
-            room1beacon1.put("Power", 100);
-            room1beacon1.put("isPrimary", true);
+            room1beacon1.put("table", "Beacon");
+            room1beacon1.put("BeaconID", UtilityManager.bytesToHex(new byte[] {1,1,1,1,1,3}));
+            room1beacon1.put("SpaceID", SpaceIDStr1);
+            room1beacon1.put("Pos_X", "1.0");
+            room1beacon1.put("Pos_Y", "2.0");
+            room1beacon1.put("Power", "100");
+            room1beacon1.put("isPrimary", "1");
 
             socket.emit("insert", room1beacon1);
 
             JSONObject room1beacon2 = new JSONObject();
-            room1beacon2.put("table", "beacon");
-            room1beacon2.put("SpaceID", beaconSpaceID1);
-            room1beacon2.put("Pos_X", 3f);
-            room1beacon2.put("Pos_Y", 4f);
-            room1beacon2.put("Power", 100);
-            room1beacon2.put("isPrimary", false);
+            room1beacon2.put("table", "Beacon");
+            room1beacon2.put("BeaconID", UtilityManager.bytesToHex(new byte[] {1,1,1,1,1,2}));
+            room1beacon2.put("SpaceID", SpaceIDStr1);
+            room1beacon2.put("Pos_X", "3.0");
+            room1beacon2.put("Pos_Y", "4.0");
+            room1beacon2.put("Power", "100");
+            room1beacon2.put("isPrimary", "0");
 
             socket.emit("insert", room1beacon2);
 
             JSONObject room1beacon3 = new JSONObject();
-            room1beacon3.put("table", "beacon");
-            room1beacon3.put("SpaceID", beaconSpaceID1);
-            room1beacon3.put("Pos_X", 1f);
-            room1beacon3.put("Pos_Y", 2f);
-            room1beacon3.put("Power", 100);
-            room1beacon3.put("isPrimary", false);
+            room1beacon3.put("table", "Beacon");
+            room1beacon3.put("BeaconID", UtilityManager.bytesToHex(new byte[] {1,1,1,1,1,6}));
+            room1beacon3.put("SpaceID", SpaceIDStr1);
+            room1beacon3.put("Pos_X", "1.0");
+            room1beacon3.put("Pos_Y", "2.0");
+            room1beacon3.put("Power", "100");
+            room1beacon3.put("isPrimary", "0");
 
             socket.emit("insert", room1beacon3);
 
             JSONObject room2beacon1 = new JSONObject();
-            room2beacon1.put("table", "beacon");
-            room2beacon1.put("SpaceID", beaconSpaceID2);
-            room2beacon1.put("Pos_X", 1f);
-            room2beacon1.put("Pos_Y", 2f);
-            room2beacon1.put("Power", 100);
-            room2beacon1.put("isPrimary", true);
+            room2beacon1.put("table", "Beacon");
+            room2beacon1.put("BeaconID", UtilityManager.bytesToHex(new byte[] {1,1,1,1,1,8}));
+            room2beacon1.put("SpaceID", SpaceIDStr2);
+            room2beacon1.put("Pos_X", "1.0");
+            room2beacon1.put("Pos_Y", "2.0");
+            room2beacon1.put("Power", "100");
+            room2beacon1.put("isPrimary", "1");
 
             socket.emit("insert", room2beacon1);
 
             JSONObject room2beacon2 = new JSONObject();
-            room2beacon2.put("table", "beacon");
-            room2beacon2.put("SpaceID", beaconSpaceID2);
-            room2beacon2.put("Pos_X", 3f);
-            room2beacon2.put("Pos_Y", 4f);
-            room2beacon2.put("Power", 100);
-            room2beacon2.put("isPrimary", false);
+            room2beacon2.put("table", "Beacon");
+            room2beacon2.put("BeaconID", UtilityManager.bytesToHex(new byte[] {1,1,1,1,1,0}));
+            room2beacon2.put("SpaceID", SpaceIDStr2);
+            room2beacon2.put("Pos_X", "3.0");
+            room2beacon2.put("Pos_Y", "4.0");
+            room2beacon2.put("Power", "40");
+            room2beacon2.put("isPrimary", "0");
 
             socket.emit("insert", room2beacon2);
 
             JSONObject room2beacon3 = new JSONObject();
-            room2beacon3.put("table", "beacon");
-            room2beacon3.put("SpaceID", beaconSpaceID2);
-            room2beacon3.put("Pos_X", 1f);
-            room2beacon3.put("Pos_Y", 2f);
-            room2beacon3.put("Power", 100);
-            room2beacon3.put("isPrimary", false);
+            room2beacon3.put("table", "Beacon");
+            room2beacon3.put("BeaconID", UtilityManager.bytesToHex(new byte[] {1,1,1,1,1,9}));
+            room2beacon3.put("SpaceID", SpaceIDStr2);
+            room2beacon3.put("Pos_X", "1.0");
+            room2beacon3.put("Pos_Y", "2.0");
+            room2beacon3.put("Power", "40");
+            room2beacon3.put("isPrimary", "0");
 
-            socket.emit("insert", room2beacon3);*/
+            socket.emit("insert", room2beacon3);
 
 
 
-            JSONObject room1 = new JSONObject();
+            /*JSONObject room1 = new JSONObject();
             room1.put("Familiar_name", "방1");
-            room1.put("table", "space");
+            room1.put("table", "Space");
             room1.put("Size_X", 2f);
             room1.put("Size_Y", 3f);
 
@@ -240,11 +254,11 @@ public class MainStationConnector
 
             JSONObject room2 = new JSONObject();
             room2.put("Familiar_name", "방2");
-            room2.put("table", "space");
+            room2.put("table", "Space");
             room2.put("Size_X", 3f);
             room2.put("Size_Y", 4f);
 
-            socket.emit("insert", room2);
+            socket.emit("insert", room2);*/
 
 
         } catch (Exception e) {
@@ -255,48 +269,50 @@ public class MainStationConnector
     public void Update() {
         try {
 
+            System.out.println(UtilityManager.bytesToHex(beaconSpaceID1));
+            System.out.println(UtilityManager.bytesToHex(beaconSpaceID2));
+
             /*JSONObject allSearch = new JSONObject();
-            allSearch.put("table", "Beacon");
+            allSearch.put("table", "beacon");
             allSearch.put("column", "State");
-            allSearch.put("newValue", new byte[] {0, 0});
-            socket.emit("update", allSearch);
+            allSearch.put("newValue", UtilityManager.bytesToHex(new byte[] {0, 2}));
+            socket.emit("update", allSearch);*/
 
 
-            // 방 1에 있는 모든 비콘 검색
+            /*// 방 1에 있는 모든 비콘 검색
             JSONObject room1Search = new JSONObject();
-            room1Search.put("table", "Beacon");
+            room1Search.put("table", "beacon");
             room1Search.put("column", "State");
-            room1Search.put("ID", beaconSpaceID1);
-            room1Search.put("newValue", new byte[] {0, 0});
+            room1Search.put("ID", UtilityManager.bytesToHex(beaconSpaceID1));
+            room1Search.put("newValue", UtilityManager.bytesToHex(new byte[] {0, 0}));
             socket.emit("update", room1Search);*/
 
             // 등록된 모든 primary 비콘 검색
             JSONObject primarySearch = new JSONObject();
             primarySearch.put("table", "Beacon");
             primarySearch.put("column", "State");
-            primarySearch.put("isPrimary", true);
-            primarySearch.put("ID", beaconSpaceID1);
-            primarySearch.put("newValue", new byte[] {0, 1});
+            primarySearch.put("isPrimary", "1");
+            // primarySearch.put("ID", UtilityManager.bytesToHex(beaconSpaceID2));
+            primarySearch.put("newValue", UtilityManager.bytesToHex(new byte[] {0, 1}));
             socket.emit("update", primarySearch);
 
             /*// 방1의 primary 비콘 검색
             JSONObject room1PrimarySearch = new JSONObject();
-            room1PrimarySearch.put("table", "Beacon");
+            room1PrimarySearch.put("table", "beacon");
             room1PrimarySearch.put("column", "State");
             room1PrimarySearch.put("ID", beaconSpaceID1);
             room1PrimarySearch.put("isPrimary", true);
             room1PrimarySearch.put("newValue", new byte[] {0, 1});
             socket.emit("update", room1PrimarySearch);*/
 
-            /*// 타겟으로 하나의 ID를 정하여 검색
+            // 타겟으로 하나의 ID를 정하여 검색
             JSONObject targetSearch = new JSONObject();
             targetSearch.put("table", "Space");
             targetSearch.put("column", "Familiar_name");
-            targetSearch.put("ID", beaconSpaceID1);
+            targetSearch.put("ID", UtilityManager.bytesToHex(beaconSpaceID1));
             targetSearch.put("newValue", "내방");
-            targetSearch.put("setTarget", 1);
+            targetSearch.put("setTarget", "1");
             socket.emit("update", targetSearch);
-*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -353,7 +369,7 @@ public class MainStationConnector
                 JSONArray jsonArray = (JSONArray) args[0];
                 // System.out.println(jsonArray.toString());
 
-                System.out.println(resulsStr[index++]);
+                // System.out.println(resulsStr[index++]);
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
