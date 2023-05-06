@@ -91,10 +91,10 @@ public class HomeFragment extends Fragment {
                     ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Insert()));
                 });
 
-        /*ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_update),
+        ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_update),
                 view -> {
-                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Insert()));
-                });*/
+                    ThreadManager.startThread(new Thread(() -> MainStationConnector.GetConnector().Update()));
+                });
 
 
         ButtonManager.getInstance().setClickListener(getActivity().findViewById(R.id.ms_disconnect),
